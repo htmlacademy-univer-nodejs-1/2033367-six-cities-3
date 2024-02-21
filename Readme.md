@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Андрей Фер](https://up.htmlacademy.ru/univer-nodejs-api/3/user/2033367).
-* Наставник: `Неизвестно`.
+* Наставник: [Владислав Поляков](https://htmlacademy.ru/profile/polrk).
 
 ---
 
