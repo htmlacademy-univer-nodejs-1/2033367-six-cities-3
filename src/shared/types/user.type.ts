@@ -1,0 +1,10 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
+import { UserType } from './user-type.enum.js';
+
+export type User = {
+  name: string;
+  email: string;
+  avatar: string;
+  password: string;
+  userType: UserType;
+}
