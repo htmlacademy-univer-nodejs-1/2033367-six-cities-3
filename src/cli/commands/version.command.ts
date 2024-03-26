@@ -1,7 +1,8 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
+import { version } from '../../../package.json';
 import { readFileSync } from 'node:fs';
-import { Command } from './commands.interface.js';
+import { type Command } from './commands.interface.js';
 import { resolve } from 'node:path';
+import chalk from 'chalk';
 
 type PackageJSONConfig = {
   version: string;
@@ -23,14 +24,7 @@ export class VersionCommand implements Command {
   ) {}
 
   private readVersion(): string {
-    const jsonContent = readFileSync(resolve(this.filePath), 'utf-8');
-    const importedContent: unknown = JSON.parse(jsonContent);
-
-    if (!isPackageJSONConfig(importedContent)) {
-      throw new Error('Failed to parse JSON');
-    }
-
-    return importedContent.version;
+    return version;
   }
 
   public getName(): string {
@@ -39,13 +33,13 @@ export class VersionCommand implements Command {
 
   public async execute(..._params: string[]): Promise<void> {
     try {
-      const version = this.readVersion();
-      console.info(version);
+      const vers = this.readVersion();
+      console.info(chalk.greenBright(vers));
     } catch(error: unknown) {
-      console.log(`Failed to read version from ${this.filePath}`);
+      console.log(chalk.red(`Failed to read version from ${this.filePath}`));
 
       if (error instanceof Error) {
-        console.error(error.message);
+        console.error(chalk.red(error.message));
       }
     }
   }

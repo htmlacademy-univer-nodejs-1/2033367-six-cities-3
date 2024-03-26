@@ -1,3 +1,5 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
+export * from './commands/help.command.js';
+export * from './commands/version.command.js';
+export * from './commands/import.command.js';
 export * from './cli-application.js';
 export * from './command-parser.js';

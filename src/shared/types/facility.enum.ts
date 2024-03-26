@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 export enum Facility {
   Breakfast = 'Breakfast',
   AirConditioning = 'Air conditioning',

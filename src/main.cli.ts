@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { CLIApplication } from './cli/cli-application.js';
 import { HelpCommand } from './cli/commands/help.command.js';
 import { ImportCommand } from './cli/commands/import.command.js';

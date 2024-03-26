@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 type ParsedCommand = Record<string, string[]>
 
 export class CommandParser {

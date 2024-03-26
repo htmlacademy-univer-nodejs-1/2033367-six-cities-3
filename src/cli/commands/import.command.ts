@@ -1,6 +1,6 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
-import { Command } from './commands.interface.js';
+import { type Command } from './commands.interface.js';
+import chalk from 'chalk';
 
 export class ImportCommand implements Command {
 
@@ -20,8 +20,8 @@ export class ImportCommand implements Command {
         throw error;
       }
 
-      console.error(`Can't import data from file: ${filename}`);
-      console.error(`Details: ${error.message}`);
+      console.error(chalk.red(`Can't import data from file: ${filename}`));
+      console.error(chalk.red(`Details: ${error.message}`));
     }
   }
 

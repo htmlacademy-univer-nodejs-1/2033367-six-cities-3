@@ -1,7 +1,8 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { City } from './city.enum.js';
 import { Facility } from './facility.enum.js';
 import { HousingType } from './housing-type.enum.js';
+import { type User } from './user.type.js';
+import { type Coordinates } from './coordinates.type.js';
 
 export type Offer = {
   title: string;
@@ -18,7 +19,7 @@ export type Offer = {
   guestsCount: number;
   price: number;
   facilities: Facility[];
-  author: string;
+  author: User;
   commentsCount: number;
-  coordinates: string;
+  coordinates: Coordinates;
 }

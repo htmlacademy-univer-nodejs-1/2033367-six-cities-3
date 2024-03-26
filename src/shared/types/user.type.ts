@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { UserType } from './user-type.enum.js';
 
 export type User = {

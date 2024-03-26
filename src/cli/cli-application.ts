@@ -1,6 +1,5 @@
-/* eslint-disable node/no-unsupported-features/es-syntax */
 import { CommandParser } from './command-parser.js';
-import { Command } from './commands/commands.interface.js';
+import { type Command } from './commands/commands.interface.js';
 
 type CommandCollection = Record<string, Command>;
 
