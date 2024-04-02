@@ -11,3 +11,4 @@ coverage
 *.log
 *.d.ts
 mocks/mock-data.tsv
+*.log
