@@ -5,5 +5,6 @@ export class RestApplication {
 
   public async init() {
     this.logger.info('Application initialization');
+    this.logger.debug('This is debug');
   }
 }
