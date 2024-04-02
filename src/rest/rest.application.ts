@@ -4,7 +4,7 @@ import type { Logger } from '../shared/logger/index.js';
 export class RestApplication {
   constructor(
     private readonly logger: Logger,
-    private readonly config: Config
+    private readonly config: Config<>
   ) {}
 
   public async init() {
