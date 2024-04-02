@@ -22,6 +22,8 @@
     "resolvePackageJsonExports": true,
     "verbatimModuleSyntax": true,
     "allowArbitraryExtensions": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": [
     "src/**/*.ts"
