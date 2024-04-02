@@ -2,11 +2,15 @@ import { config } from 'dotenv';
 import type { Logger } from '../../logger';
 import type { Config } from './config.interface';
 import { configRestSchema, type RestSchema } from './rest.schema';
+import { inject, injectable } from 'inversify';
+import { Component } from '../../types';
 
+@injectable()
 export class RestConfig implements Config<RestSchema> {
   private readonly config: RestSchema;
 
-  constructor(private readonly logger: Logger) {
+  constructor(
+    @inject(Component.Logger) private readonly logger: Logger) {
     const parsedOutput = config();
 
     if (parsedOutput.error) {
