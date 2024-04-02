@@ -1,0 +1,91 @@
+{
+  "api": {
+    "titles": [
+      "Очень крутое предложение",
+      "Крутое предложение",
+      "Хорошее предложение",
+      "Необычное предложение",
+      "Обычное предложение",
+      "Нормальное предложение",
+      "Такое себе предложение",
+      "Плохое предложение"
+    ],
+    "descriptions": [
+      "Очень крутое описание",
+      "Крутое описание",
+      "Хорошее описание",
+      "Необычное описание",
+      "Обычное описание",
+      "Нормальное описание",
+      "Такое себе описание",
+      "Плохое описание"
+    ],
+    "previews": [
+      "preview_1.jpg",
+      "preview_2.png",
+      "preview_3.jpg",
+      "preview_4.png",
+      "preview_5.jpg",
+      "preview_6.png",
+      "preview_7.jpg",
+      "preview_8.png"
+    ],
+    "pictures": [
+      "picture_1.png",
+      "picture_2.jpg",
+      "picture_3.png",
+      "picture_4.jpg",
+      "picture_5.png",
+      "picture_6.jpg",
+      "picture_7.png",
+      "picture_8.jpg"
+    ],
+    "names": [
+      "Anthony",
+      "Brian",
+      "Charlie",
+      "Dave",
+      "Edmond",
+      "Fabian",
+      "Gave",
+      "Harold",
+      "Ivan",
+      "Jacob",
+      "Kevin",
+      "Laura",
+      "Maggie",
+      "Olivia",
+      "Peter",
+      "Quincy",
+      "Rebecca",
+      "Sarah",
+      "Tim"
+    ],
+    "emails": [
+      "baldAsACoot@mail.ru",
+      "ksarion1@gmail.com",
+      "05x05@mail.ru",
+      "andrey.fer@yandex.ru"
+    ],
+    "avatars": [
+      "avatar_1.jpg",
+      "avatar_2.png",
+      "avatar_3.jpg",
+      "avatar_4.png",
+      "avatar_5.jpg",
+      "avatar_6.png",
+      "avatar_7.jpg",
+      "avatar_8.png"
+    ],
+    "passwords": [
+      "hashed_password_1",
+      "hashed_password_2",
+      "hashed_password_3",
+      "hashed_password_4",
+      "hashed_password_5",
+      "hashed_password_6",
+      "hashed_password_7",
+      "hashed_password_8"
+    ]
+  }
+}
