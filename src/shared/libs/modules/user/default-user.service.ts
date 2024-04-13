@@ -23,11 +23,17 @@ export class DefaultUserService implements UserService {
     return result;
   }
 
-  findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
-    throw new Error('Method not implemented.');
+  public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({email});
   }
 
-  findOrCreate(dto: CreateUserDTO, salt: string): Promise<DocumentType<UserEntity>> {
-    throw new Error('Method not implemented.');
+  public async findOrCreate(dto: CreateUserDTO, salt: string): Promise<DocumentType<UserEntity>> {
+    const existedUser = await this.findByEmail(dto.email);
+
+    if (existedUser) {
+      return existedUser;
+    }
+
+    return this.create(dto, salt);
   }
 }
