@@ -2,13 +2,24 @@ import type { DocumentType } from '@typegoose/typegoose';
 import type { CreateUserDTO } from './dto/create-user.dto';
 import type { UserService } from './user-service.interface';
 import { UserEntity, UserModel } from './user.entity';
+import { inject } from 'inversify';
+import { Component } from '../../../types';
+import type { Logger } from 'pino';
 
 export class DefaultUserService implements UserService {
+
+  constructor(
+    @inject(Component.Logger) private readonly logger: Logger,
+  ) {}
+
   public async create(dto: CreateUserDTO, salt: string): Promise<DocumentType<UserEntity>> {
     const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);
 
-    return UserModel.create(user);
+    const result = await UserModel.create(user);
+    this.logger.info(`New user created: ${user.email}`);
+
+    return result;
   }
 
   findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {
