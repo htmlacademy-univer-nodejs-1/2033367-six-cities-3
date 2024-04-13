@@ -76,16 +76,6 @@
       "avatar_6.png",
       "avatar_7.jpg",
       "avatar_8.png"
-    ],
-    "passwords": [
-      "hashed_password_1",
-      "hashed_password_2",
-      "hashed_password_3",
-      "hashed_password_4",
-      "hashed_password_5",
-      "hashed_password_6",
-      "hashed_password_7",
-      "hashed_password_8"
     ]
   }
 }
