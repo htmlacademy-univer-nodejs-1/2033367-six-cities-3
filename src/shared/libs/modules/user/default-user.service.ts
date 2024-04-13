@@ -1,7 +1,7 @@
 import type { DocumentType, types } from '@typegoose/typegoose';
 import type { CreateUserDTO } from './dto/create-user.dto';
 import type { UserService } from './user-service.interface';
-import { UserEntity, UserModel } from './user.entity';
+import { UserEntity } from './user.entity';
 import { inject } from 'inversify';
 import { Component } from '../../../types';
 import type { Logger } from 'pino';
@@ -21,6 +21,10 @@ export class DefaultUserService implements UserService {
     this.logger.info(`New user created: ${user.email}`);
 
     return result;
+  }
+
+  public async findById(id: string): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findOne({id});
   }
 
   public async findByEmail(email: string): Promise<DocumentType<UserEntity> | null> {

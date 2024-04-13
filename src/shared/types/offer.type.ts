@@ -3,6 +3,7 @@ import { Facility } from './facility.enum.js';
 import { HousingType } from './housing-type.enum.js';
 import { type User } from './user.type.js';
 import { type Coordinates } from './coordinates.type.js';
+import type { Ref } from '@typegoose/typegoose';
 
 export type Offer = {
   title: string;
@@ -19,7 +20,7 @@ export type Offer = {
   guestsCount: number;
   price: number;
   facilities: Facility[];
-  author: User;
+  author: Ref<User>;
   commentsCount: number;
   coordinates: Coordinates;
 }
