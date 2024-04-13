@@ -1,7 +1,7 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
+import { defaultClasses, getModelForClass, prop } from '@typegoose/typegoose';
 import type { User, UserType } from '../../../types/index.js';
 
-export class UserEntity implements User {
+export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({ required: true, minlength: [1, 'Min length for name is 1'], maxlength: [15, 'Max length for name is 15'] })
   public name = '';
 
