@@ -17,6 +17,6 @@ export class CreateOfferDTO {
   public guestsCount: number;
   public price: number;
   public facilities: Facility[];
-  public userId: Ref<UserEntity>;
+  public authorId: Ref<UserEntity>;
   public coordinates: Coordinates;
 }
