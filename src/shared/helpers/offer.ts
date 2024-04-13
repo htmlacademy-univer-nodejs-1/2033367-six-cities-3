@@ -19,7 +19,6 @@ export function createOffer(offerData: string): Offer {
     name,
     email,
     avatar,
-    password,
     userType,
     coordinates
   ] = offerData.replace('\n', '').split('\t');
@@ -43,7 +42,6 @@ export function createOffer(offerData: string): Offer {
       name,
       email,
       avatar,
-      password,
       userType: userType as UserType
     },
     commentsCount: 0,

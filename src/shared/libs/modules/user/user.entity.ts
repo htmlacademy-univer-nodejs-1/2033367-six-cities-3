@@ -12,19 +12,44 @@ export interface UserEntity extends defaultClasses.Base {}
   }
 })
 export class UserEntity extends defaultClasses.TimeStamps implements User {
-  @prop({ required: true, minlength: [1, 'Min length for name is 1'], maxlength: [15, 'Max length for name is 15'], default: '' })
-  public name: string;
+  @prop({
+    required: true,
+    minlength: [1, 'Min length for name is 1'],
+    maxlength: [15, 'Max length for name is 15'],
+    default: '',
+    type: () => String
+  })
+  public name!: string;
 
-  @prop({ required: true, unique: true, match: [/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/, 'Email is incorrect'], default: '' })
-  public email: string;
+  @prop({
+    required: true,
+    unique: true,
+    match: [/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+/, 'Email is incorrect'],
+    default: '',
+    type: () => String
+  })
+  public email!: string;
 
-  @prop({ required: false, default: '', match: [/^(?i:^.*\.(png|jpg)$)/, 'Avatar file extension is incorrect'] })
-  public avatar: string;
+  @prop({
+    required: false,
+    default: '',
+    type: () => String
+  })
+  public avatar!: string;
 
-  @prop({ required: true })
-  public userType: UserType;
+  @prop({
+    required: true,
+    type: () => String
+  })
+  public userType!: UserType;
 
-  @prop({ required: true, minlength: [6, 'Min length for password is 6'], maxlength: [12, 'Max length for password is 12'], default: '' })
+  @prop({
+    required: true,
+    // minlength: [6, 'Min length for password is 6'],
+    // maxlength: [12, 'Max length for password is 12'],
+    default: '',
+    type: () => String
+  })
   private password?: string;
 
   constructor(userData: User) {

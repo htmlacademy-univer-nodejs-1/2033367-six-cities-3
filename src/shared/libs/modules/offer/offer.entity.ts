@@ -9,7 +9,7 @@ export interface OfferEntity extends defaultClasses.Base {}
     collection: 'offers',
   }
 })
-export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
+export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
     minlength: [10, 'Min length for title is 10'],
@@ -107,8 +107,7 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
 
   @prop({
     required: true,
-    enum: Facility,
-    type: () => Array<string>,
+    type: () => Array<string>
   })
   public facilities!: Facility[];
 
@@ -126,31 +125,9 @@ export class OfferEntity extends defaultClasses.TimeStamps implements Offer {
 
   @prop({
     required: true,
-    type: () => String,
+    type: () => Object
   })
   public coordinates!: Coordinates;
-
-  constructor(offerData: Offer) {
-    super();
-
-    this.title = offerData.title;
-    this.description = offerData.description;
-    this.city = offerData.city;
-    this.postDate = offerData.postDate;
-    this.city = offerData.city;
-    this.preview = offerData.preview;
-    this.pictures = offerData.pictures;
-    this.isPremium = offerData.isPremium;
-    this.isFavorite = offerData.isFavorite;
-    this.rating = offerData.rating;
-    this.housingType = offerData.housingType;
-    this.roomsCount = offerData.roomsCount;
-    this.guestsCount = offerData.guestsCount;
-    this.price = offerData.price;
-    this.facilities = offerData.facilities;
-    this.authorId = offerData.authorId;
-    this.coordinates = offerData.coordinates;
-  }
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

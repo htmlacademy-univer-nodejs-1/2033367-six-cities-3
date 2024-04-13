@@ -1,10 +1,10 @@
 import type { DocumentType, types } from '@typegoose/typegoose';
-import type { CreateUserDTO } from './dto/create-user.dto';
-import type { UserService } from './user-service.interface';
-import { UserEntity } from './user.entity';
+import type { CreateUserDTO } from './dto/create-user.dto.js';
+import type { UserService } from './user-service.interface.js';
+import { UserEntity } from './user.entity.js';
 import { inject } from 'inversify';
-import { Component } from '../../../types';
-import type { Logger } from 'pino';
+import { Component } from '../../../types/index.js';
+import type { Logger } from '../../../logger/index.js';
 
 export class DefaultUserService implements UserService {
 

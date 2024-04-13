@@ -28,7 +28,7 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel.findOne({title});
   }
 
-  public async findOrCreate(dto: OfferEntity): Promise<DocumentType<OfferEntity>> {
+  public async findOrCreate(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
     const existedOffer = await this.findByTitle(dto.title);
 
     if (existedOffer) {
