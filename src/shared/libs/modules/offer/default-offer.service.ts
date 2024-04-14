@@ -6,7 +6,7 @@ import type { DocumentType, types } from '@typegoose/typegoose';
 import type { CreateOfferDTO } from './dto/create-offer.dto.js';
 import type { Logger } from '../../../logger/logger.interface.js';
 import type { UpdateOfferDTO } from './dto/update-offer.dto.js';
-import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
+import { DEFAULT_OFFER_COUNT, PREMIUM_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -30,22 +30,10 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  public async findByTitle(title: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findOne({title});
-  }
-
-  public async findOrCreate(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
-    const existedOffer = await this.findByTitle(dto.title);
-
-    if (existedOffer) {
-      return existedOffer;
-    }
-
-    return this.create(dto);
-  }
-
-  public async find(): Promise<DocumentType<OfferEntity>[]> {
-    return this.offerModel.find();
+  public async find(count?: number, offset?: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count ?? DEFAULT_OFFER_COUNT;
+    const skip = offset ?? 0;
+    return this.offerModel.find({limit, skip});
   }
 
   public async deleteById(id: string): Promise<DocumentType<OfferEntity> | null> {
@@ -67,7 +55,7 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async findByCityAndPremium(city: string, isPremium: boolean, count?: number, offset?: number): Promise<DocumentType<OfferEntity>[] | null> {
-    const limit = count ?? DEFAULT_OFFER_COUNT;
+    const limit = count ?? PREMIUM_OFFER_COUNT;
     const skip = offset ?? 0;
     return this.offerModel
       .find({city: city, isPremium: isPremium}, {}, {limit, skip})
