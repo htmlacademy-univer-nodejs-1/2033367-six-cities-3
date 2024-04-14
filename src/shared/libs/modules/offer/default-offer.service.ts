@@ -38,4 +38,8 @@ export class DefaultOfferService implements OfferService {
     return this.create(dto);
   }
 
+  public async find(): Promise<DocumentType<OfferEntity>[]> {
+    return this.offerModel.find();
+  }
+
 }

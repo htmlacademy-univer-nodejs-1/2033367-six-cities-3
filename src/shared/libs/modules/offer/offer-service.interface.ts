@@ -6,5 +6,6 @@ export interface OfferService {
   create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>>;
   findById(id: string): Promise<DocumentType<OfferEntity> | null>;
   findByTitle(title: string): Promise<DocumentType<OfferEntity> | null>;
-  findOrCreate(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>>
+  findOrCreate(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>>;
+  find(): Promise<DocumentType<OfferEntity>[]>;
 }
