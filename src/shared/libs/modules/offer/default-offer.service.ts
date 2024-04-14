@@ -1,4 +1,4 @@
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import type { OfferService } from './offer-service.interface.js';
 import { Component } from '../../../types/index.js';
 import { OfferEntity } from './offer.entity.js';
@@ -6,6 +6,7 @@ import type { DocumentType, types } from '@typegoose/typegoose';
 import type { CreateOfferDTO } from './dto/create-offer.dto.js';
 import type { Logger } from '../../../logger/logger.interface.js';
 
+@injectable()
 export class DefaultOfferService implements OfferService {
 
   constructor(
@@ -21,7 +22,10 @@ export class DefaultOfferService implements OfferService {
   }
 
   public async findById(id: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findOne({id});
+    return this.offerModel
+      .findById(id)
+      .populate(['authorId'])
+      .exec();
   }
 
   public async findByTitle(title: string): Promise<DocumentType<OfferEntity> | null> {

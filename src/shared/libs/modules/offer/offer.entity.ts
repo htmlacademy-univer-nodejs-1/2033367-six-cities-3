@@ -1,10 +1,14 @@
-import { defaultClasses, getModelForClass, modelOptions, prop, type Ref } from '@typegoose/typegoose';
-import { City, Facility, HousingType, type Coordinates, type Offer } from '../../../types/index.js';
+import { defaultClasses, getModelForClass, modelOptions, prop, Severity, type Ref } from '@typegoose/typegoose';
+import { City, Facility, HousingType, type Coordinates } from '../../../types/index.js';
 import { UserEntity } from '../user/user.entity.js';
 
 export interface OfferEntity extends defaultClasses.Base {}
 
 @modelOptions({
+  options: {
+    allowMixed: Severity.ALLOW,
+    customName: 'notification',
+  },
   schemaOptions: {
     collection: 'offers',
   }
