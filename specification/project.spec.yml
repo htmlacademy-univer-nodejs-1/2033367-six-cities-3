@@ -1,0 +1,19 @@
+openapi: 3.1.0
+info:
+  title: "Six-cities API (Проект 'Шесть городов')"
+  version: "1.0.0"
+  contact:
+    name: Andrew Fer
+    email: andrei.fer@urfu.me
+tags:
+  - name: Metadata
+    description: Metadata related requests
+paths:
+  /:
+    get:
+      operationId: getMetadata
+      summary: Get metadata from the root of the API
+      tags: [ 'Metadata' ]
+      responses:
+        '200':
+          description: OK
