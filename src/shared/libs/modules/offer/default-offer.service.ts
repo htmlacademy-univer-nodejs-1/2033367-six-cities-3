@@ -5,6 +5,8 @@ import { OfferEntity } from './offer.entity.js';
 import type { DocumentType, types } from '@typegoose/typegoose';
 import type { CreateOfferDTO } from './dto/create-offer.dto.js';
 import type { Logger } from '../../../logger/logger.interface.js';
+import type { UpdateOfferDTO } from './dto/update-offer.dto.js';
+import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -44,6 +46,58 @@ export class DefaultOfferService implements OfferService {
 
   public async find(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel.find();
+  }
+
+  public async deleteById(id: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel.findByIdAndDelete(id).exec();
+  }
+
+  public async updateById(id: string, dto: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(id, dto, { new: true })
+      .populate('authorId')
+      .exec();
+  }
+
+  public async incCommentCount(id: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(id, {'$inc': {
+        commentsCount: 1,
+      }}, { new: true });
+  }
+
+  public async findByCityAndPremium(city: string, isPremium: boolean, count?: number, offset?: number): Promise<DocumentType<OfferEntity>[] | null> {
+    const limit = count ?? DEFAULT_OFFER_COUNT;
+    const skip = offset ?? 0;
+    return this.offerModel
+      .find({city: city, isPremium: isPremium}, {}, {limit, skip})
+      .populate('authorId')
+      .exec();
+  }
+
+  public async findByFavorite(isFavorite: boolean, count?: number, offset?: number): Promise<DocumentType<OfferEntity>[] | null> {
+    const limit = count ?? DEFAULT_OFFER_COUNT;
+    const skip = offset ?? 0;
+    return this.offerModel
+      .find({isFavorite: isFavorite}, {}, {limit, skip})
+      .populate('authorId')
+      .exec();
+  }
+
+  public async addToFavorite(id: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(id, {isFavorite: false}, {new: true})
+      .exec();
+  }
+
+  public async removeFromFavorite(id: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel
+      .findByIdAndUpdate(id, {isFavorite: true}, {new: true})
+      .exec();
+  }
+
+  public async exists(id: string): Promise<boolean> {
+    return (await this.offerModel.exists({_id: id})) !== null;
   }
 
 }

@@ -36,7 +36,7 @@ export class RestApplication {
     await this._initDb();
     this.logger.info('Initialization of database completed');
 
-    const result = await this.offerService.findById('661acb768543ba9985d1674b');
+    const result = await this.offerService.incCommentCount('661acb768543ba9985d1674b');
     console.log(result);
   }
 }
