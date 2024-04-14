@@ -1,0 +1,547 @@
+openapi: 3.1.0
+info:
+  title: "Six-cities API (Проект 'Шесть городов')"
+  version: "1.0.0"
+  contact:
+    name: Andrew Fer
+    email: andrei.fer@urfu.me
+tags:
+  - name: offers
+    description: Действия с предложениями
+  - name: users
+    description: Действия с пользователями
+  - name: comments
+    description: Действия с комментариями
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя
+      requestBody:
+        description: Информация для создания нового пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизует пользователя
+      description: Авторизует пользователя по логину и паролю
+      requestBody:
+        description: Информация для авторизации пользователя
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+        required: true
+      responses:
+        "200":
+          description: Пользователь успешно авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        "401":
+          description: Авторизация не пройдена
+
+  /users/logout:
+    post:
+      tags:
+        - users
+      summary: Деавторизует пользователя
+      description: Девторизует текущего пользователя
+      responses:
+        "200":
+          description: Пользователь успешно деавторизован
+        "401":
+          description: Пользователь не авторизован
+    
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение аватара
+      description: Загружает изображение аватара пользователя. Изображение
+        аватара должно быть в формате `png` или `jpg`.
+      responses:
+        "404":
+          description: Пользователь с указанным id не найден
+
+  /offers:
+    get:
+      tags:
+        - offers
+      summary: Получить список предложений
+      description: Возвращает список доступных предложений для аренды
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            city:
+            type: string
+            enum:
+              - Paris
+              - Cologne
+              - Brussels
+              - Amsterdam
+              - Hamburg
+              - Dusseldorf
+        - name: isPremium
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: isFavorite
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offersList'
+
+    post:
+      tags:
+        - offers
+      summary: Создать новое предложение
+      description: Создает новое предложение
+      requestBody:
+        description: Информация для создания нового предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+      responses:
+        "201":
+          description: Предложение успешно создано. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        "422":
+          description: Невозможно создать предложение, некорректное тело запроса
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - offers
+      summary: Получить информацию о предложении
+      description: Получить подробную информацию о предложении с указанным id
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        "404":
+          description: Предложение с переданным id не найдено
+
+    put:
+      tags:
+        - offers
+      summary: Изменить предложение
+      description: Изменить предложение с заданным id
+      requestBody:
+        description: Информация для изменения предложения
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOffer'
+        required: true
+      responses:
+        "200":
+          description: Предложение успешно изменено. Объект предложения.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+        "404":
+          description: Предложение с переданным id не найдено
+        "422":
+          description: Невозможно создать предложение, некорректное тело запроса
+
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение
+      description: Удалить предложение с заданным id
+      responses:
+        "204":
+          description: Предложение успешно удалено
+        "404":
+          description: Предложение с переданным id не найдено
+
+  /offers/{offerId}/favorite:
+    post:
+      tags:
+        - offers
+      summary: Добавить предложение в избранные
+      description: Добавить предложение с указанным id в избранные
+      responses:
+        "200":
+          description: Предложение успешно добавлено в избранные
+        "400":
+          description: Предложение уже является избранным
+        "404":
+          description: Предложение с переданным id не найдено
+
+    delete:
+      tags:
+        - offers
+      summary: Исключить предложение из избранных
+      description: Исключить предложение с указанным id из избранных
+      responses:
+        "200":
+          description: Предложение успешно исключено из избранных
+        "400":
+          description: Предложение не является избранным
+        "404":
+          description: Предложение с переданным id не найдено
+
+  /offers/{offerId}/comments:
+    get:
+      tags:
+        - comments
+      summary: Получить список комментариев для предложения
+      description: Получить список комментариев для предложения с указанным id
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/commentsList'
+        "404":
+          description: Предложение с переданным id не найдено
+      
+    post:
+      tags:
+        - comments
+      summary: Добавить новый комментарий для предложения
+      description: Добавить новый комментарий для предложения с указанным id
+      responses:
+        "201":
+          description: Комментарий успешно добавлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comment'
+        "404":
+          description: Предложение с переданным id не найдено
+        "422":
+          description: Невозможно добавить комментарий, некорректное тело запроса
+
+components:
+  schemas:
+    login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: andrei.fer@urfu.me
+        password:
+          type: string
+          format: password
+          example: 123456
+
+    createUser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Andrew Fer
+        email:
+          type: string
+          example: andrei.fer@urfu.me
+        password:
+          type: string
+          format: password
+          example: 123456
+
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        email:
+          type: string
+          example: andrei.fer@urfu.me
+
+    createOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          example: My first offer
+        description:
+          type: string
+          example: Some description
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+          example: Cologne
+        preview:
+          type: string
+          example: somepath.png
+        pictures:
+          type: array
+          items:
+            type: string
+          example:
+            - somepath.png
+            - somepath.jpg
+        isPremium: 
+          type: boolean
+        housingType: 
+          type: string
+        roomsCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 8
+        guestsCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 10
+        price: 
+          type: number
+          format: int32
+          minimum: 100
+          maximum: 100000
+        facilities:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: double
+            longitude:
+              type: number
+              format: double
+
+    offersList:
+      type: array
+      items:
+        $ref: '#/components/schemas/shortOffer'
+
+    shortOffer:
+      type: object
+      properties:
+        title:
+          type: string
+          example: My first offer
+        postDate: 
+          type: string
+          format: date
+          example: "2024-13-04"
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+          example: Cologne
+        preview:
+          type: string
+          example: somepath.png
+        isPremium: 
+          type: boolean
+        isFavorite: 
+          type: boolean
+        rating:
+          type: number
+          format: float
+          minimum: 1
+          maximum: 5
+        housingType: 
+          type: string
+        roomsCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 8
+        guestsCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 10
+        price: 
+          type: number
+          format: int32
+          minimum: 100
+          maximum: 100000
+        authorId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+
+    offer:
+      type: object
+      properties:
+        title:
+          type: string
+          example: My first offer
+        description:
+          type: string
+          example: Some description
+        postDate: 
+          type: string
+          format: date
+          example: "2024-13-04"
+        city:
+          type: string
+          enum:
+            - Paris
+            - Cologne
+            - Brussels
+            - Amsterdam
+            - Hamburg
+            - Dusseldorf
+          example: Cologne
+        preview:
+          type: string
+          example: somepath.png
+        pictures:
+          type: array
+          items:
+            type: string
+          example:
+            - somepath.png
+            - somepath.jpg
+        isPremium: 
+          type: boolean
+        isFavorite: 
+          type: boolean
+        rating: 
+          type: number
+          format: float
+          minimum: 1
+          maximum: 5
+        housingType: 
+          type: string
+        roomsCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 8
+        guestsCount:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 10
+        price: 
+          type: number
+          format: int32
+          minimum: 100
+          maximum: 100000
+        facilities:
+          type: array
+          items:
+            type: string
+            enum:
+              - Breakfast
+              - Air conditioning
+              - Laptop friendly workspace
+              - Baby seat
+              - Washer
+              - Towels
+              - Fridge
+        authorId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        coordinates:
+          type: object
+          properties:
+            latitude:
+              type: number
+              format: double
+            longitude:
+              type: number
+              format: double
+
+    createComment:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: My first offer
+
+    commentsList:
+      type: array
+      items:
+        $ref: '#/components/schemas/comment'
+
+    comment:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: My first offer
+        postDate: 
+          type: string
+          format: date
+          example: "2024-13-04"
+        rating: 
+          type: number
+          format: float
+          minimum: 1
+          maximum: 5
+        authorId:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
