@@ -6,8 +6,12 @@ info:
     name: Andrew Fer
     email: andrei.fer@urfu.me
 tags:
-  - name: Metadata
-    description: Metadata related requests
+  - name: offers
+    description: Действия с предложениями
+  - name: users
+    description: Действия с пользователями
+  - name: comments
+    description: Действия с комментариями
 paths:
   /:
     get:
