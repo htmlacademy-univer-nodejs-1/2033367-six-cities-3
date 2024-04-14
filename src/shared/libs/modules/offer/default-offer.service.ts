@@ -100,4 +100,24 @@ export class DefaultOfferService implements OfferService {
     return (await this.offerModel.exists({_id: id})) !== null;
   }
 
+  public async updateOfferRating(id: string): Promise<DocumentType<OfferEntity | null> | null> {
+    const rating = await this.offerModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'comments',
+            pipeline: [
+              {$match: {offerId: id}}, {$project: {rating: 1}},
+              {$group: {_id: null, avg: {'$avg': '$rating'}}}
+            ], as: 'avg'
+          },
+        },
+      ]).exec();
+
+    return this.offerModel
+      .findByIdAndUpdate(id, {rating: rating[0]}, {new: true})
+      .populate('authorId')
+      .exec();
+  }
+
 }
