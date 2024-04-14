@@ -7,6 +7,12 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   public text: string;
 
   @prop({
+    required: true,
+    type: () => Date,
+  })
+  public postDate: Date;
+
+  @prop({
     ref: OfferEntity,
     required: true,
   })
