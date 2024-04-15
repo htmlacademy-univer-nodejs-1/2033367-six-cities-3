@@ -8,8 +8,8 @@ import { OfferModel, type OfferEntity } from './offer.entity.js';
 export function createOfferContainer() {
   const offerContainer = new Container();
 
-  offerContainer.bind<OfferService>(Component.UserService).to(DefaultOfferService).inSingletonScope();
-  offerContainer.bind<types.ModelType<OfferEntity>>(Component.UserModel).toConstantValue(OfferModel);
+  offerContainer.bind<OfferService>(Component.OfferService).to(DefaultOfferService).inSingletonScope();
+  offerContainer.bind<types.ModelType<OfferEntity>>(Component.OfferModel).toConstantValue(OfferModel);
 
   return offerContainer;
 }
