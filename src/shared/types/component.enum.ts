@@ -10,4 +10,5 @@ export const Component = {
   CommentService: Symbol.for('CommentService'),
   CommentModel: Symbol.for('CommentModel'),
   UserController: Symbol.for('UserController'),
+  OfferController: Symbol.for('OfferController'),
 } as const;
