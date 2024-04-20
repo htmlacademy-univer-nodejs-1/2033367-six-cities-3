@@ -4,6 +4,8 @@ import { type Config, RestConfig, type RestSchema } from '../shared/libs/config/
 import { MongoDatabaseClient, type DatabaseClient } from '../shared/libs/database-client/index.js';
 import { Component } from '../shared/types/index.js';
 import { PinoLogger, type Logger } from '../shared/libs/logger/index.js';
+import type { ExceptionFilter } from '../shared/libs/rest/index.js';
+import { DefaultExceptionFilter } from '../shared/libs/rest/exception-filter/default-exception-filter.js';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();
@@ -12,6 +14,7 @@ export function createRestApplicationContainer() {
   restApplicationContainer.bind<Logger>(Component.Logger).to(PinoLogger).inSingletonScope();
   restApplicationContainer.bind<Config<RestSchema>>(Component.Config).to(RestConfig).inSingletonScope();
   restApplicationContainer.bind<DatabaseClient>(Component.DatabaseClient).to(MongoDatabaseClient).inSingletonScope();
+  restApplicationContainer.bind<ExceptionFilter>(Component.ExceptionFilter).to(DefaultExceptionFilter).inSingletonScope();
 
   return restApplicationContainer;
 }

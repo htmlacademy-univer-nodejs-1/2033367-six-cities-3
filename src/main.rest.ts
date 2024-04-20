@@ -3,9 +3,9 @@ import { Container } from 'inversify';
 import { RestApplication } from './rest/index.js';
 import { Component } from './shared/types/index.js';
 import { createRestApplicationContainer } from './rest/rest.container.js';
-import { createUserContainer } from './shared/libs/modules/user/user.container.js';
-import { createOfferContainer } from './shared/libs/modules/offer/offer.container.js';
-import { createCommentContainer } from './shared/libs/modules/comment/comment.container.js';
+import { createUserContainer } from './shared/modules/user/user.container.js';
+import { createOfferContainer } from './shared/modules/offer/offer.container.js';
+import { createCommentContainer } from './shared/modules/comment/comment.container.js';
 
 async function bootstrap() {
   const appContainer = Container.merge(

@@ -43,15 +43,15 @@ export abstract class BaseController implements Controller {
     this.send(res, StatusCodes.CREATED, data);
   }
 
-  public noContent<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.NO_CONTENT, data);
+  public noContent(res: Response): void {
+    this.send(res, StatusCodes.NO_CONTENT, null);
   }
 
-  public notFound<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.NOT_FOUND, data);
+  public notFound(res: Response): void {
+    this.send(res, StatusCodes.NOT_FOUND, null);
   }
 
-  public badRequest<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.BAD_REQUEST, data);
+  public badRequest(res: Response): void {
+    this.send(res, StatusCodes.BAD_REQUEST, null);
   }
 }
