@@ -2,7 +2,7 @@ import express, { type Express } from 'express';
 import { inject, injectable } from 'inversify';
 import type { Config } from '../shared/libs/config/config.interface.js';
 import type { RestSchema } from '../shared/libs/config/rest.schema.js';
-import type { Logger } from '../shared/logger/index.js';
+import type { Logger } from '../shared/libs/logger/index.js';
 import { Component } from '../shared/types/component.enum.js';
 import type { DatabaseClient } from '../shared/libs/database-client/database-client.interface.js';
 import { getMongoURI } from '../shared/helpers/database.js';

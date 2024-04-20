@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import type { Logger } from '../../logger';
+import type { Logger } from '../logger';
 import type { Config } from './config.interface';
 import { configRestSchema, type RestSchema } from './rest.schema';
 import { inject, injectable } from 'inversify';
