@@ -7,6 +7,7 @@ import { HttpMethod } from '../../libs/rest/index.js';
 import type { OfferService } from './offer-service.interface.js';
 import { fillDTO } from '../../helpers/common.js';
 import { OfferRDO } from './rdo/offer.rdo.js';
+import type { CreateOfferRequest } from './create-offer-request.type.js';
 
 export class OfferController extends BaseController {
 
@@ -23,7 +24,17 @@ export class OfferController extends BaseController {
   public async index(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find();
     const responseData = fillDTO(OfferRDO, offers);
-    this.ok(res, offers);
+    this.ok(res, responseData);
+  }
+
+  public async create(
+    { body }: CreateOfferRequest,
+    res: Response
+  ): Promise<void> {
+
+    const result = await this.offerService.create(body);
+    this.created(res, fillDTO(OfferRDO, result));
+
   }
 
 }
