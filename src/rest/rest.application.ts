@@ -1,3 +1,4 @@
+import express, { type Express } from 'express';
 import { inject, injectable } from 'inversify';
 import type { Config } from '../shared/libs/config/config.interface.js';
 import type { RestSchema } from '../shared/libs/config/rest.schema.js';
@@ -9,12 +10,21 @@ import type { OfferService } from '../shared/libs/modules/offer/offer-service.in
 
 @injectable()
 export class RestApplication {
+  private server: Express;
+
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
     @inject(Component.Config) private readonly config: Config<RestSchema>,
     @inject(Component.DatabaseClient) private readonly databaseClient: DatabaseClient,
     @inject(Component.OfferService) private readonly offerService: OfferService,
-  ) {}
+  ) {
+    this.server = express();
+  }
+
+  private async _initServer() {
+    const port = this.config.get('PORT');
+    this.server.listen(port);
+  }
 
   private async _initDb() {
     const mongoUri = getMongoURI(
@@ -36,7 +46,8 @@ export class RestApplication {
     await this._initDb();
     this.logger.info('Initialization of database completed');
 
-    const result = await this.offerService.incCommentCount('661acb768543ba9985d1674b');
-    console.log(result);
+    this.logger.info('Trying to initialize server');
+    await this._initServer();
+    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
   }
 }
