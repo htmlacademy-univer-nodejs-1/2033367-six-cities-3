@@ -1,4 +1,4 @@
-import type { Router } from 'express';
+import type { Router, Response } from 'express';
 import type { Route } from '../types/route.interface';
 
 export interface Controller {
