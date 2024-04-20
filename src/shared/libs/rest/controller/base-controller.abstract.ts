@@ -45,4 +45,11 @@ export abstract class BaseController implements Controller {
     this.send(res, StatusCodes.NO_CONTENT, data);
   }
 
+  public notFound<T>(res: Response, data: T): void {
+    this.send(res, StatusCodes.NOT_FOUND, data);
+  }
+
+  public badRequest<T>(res: Response, data: T): void {
+    this.send(res, StatusCodes.BAD_REQUEST, data);
+  }
 }
