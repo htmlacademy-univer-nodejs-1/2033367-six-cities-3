@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import type { UserService } from '../../shared/libs/modules/user/user-service.interface.js';
 import type { OfferService } from '../../shared/libs/modules/offer/offer-service.interface.js';
 import type { DatabaseClient } from '../../shared/libs/database-client/database-client.interface.js';
-import type { Logger } from '../../shared/logger/logger.interface.js';
+import type { Logger } from '../../shared/libs/logger/logger.interface.js';
 import { DefaultOfferService } from '../../shared/libs/modules/offer/default-offer.service.js';
 import { DefaultUserService } from '../../shared/libs/modules/user/default-user.service.js';
 import { MongoDatabaseClient } from '../../shared/libs/database-client/mongo.database-client.js';
@@ -13,7 +13,7 @@ import type { Offer } from '../../shared/types/offer.type.js';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
 import { OfferModel } from '../../shared/libs/modules/offer/offer.entity.js';
 import { UserModel } from '../../shared/libs/modules/user/user.entity.js';
-import { PinoLogger } from '../../shared/logger/pino.logger.js';
+import { PinoLogger } from '../../shared/libs/logger/pino.logger.js';
 
 export class ImportCommand implements Command {
   private userService: UserService;

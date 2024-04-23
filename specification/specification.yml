@@ -13,7 +13,7 @@ tags:
   - name: comments
     description: Действия с комментариями
 paths:
-  /users/register:
+  /register:
     post:
       tags:
         - users
@@ -36,7 +36,19 @@ paths:
         "409":
           description: Пользователь с таким email уже существует.
 
-  /users/login:
+  /login:
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
     post:
       tags:
         - users
@@ -59,8 +71,8 @@ paths:
         "401":
           description: Авторизация не пройдена
 
-  /users/logout:
-    post:
+  /logout:
+    delete:
       tags:
         - users
       summary: Деавторизует пользователя
@@ -70,20 +82,8 @@ paths:
           description: Пользователь успешно деавторизован
         "401":
           description: Пользователь не авторизован
-    
-    get:
-      tags:
-        - users
-      summary: Проверка состояния пользователя
-      description: Возвращает информацию по авторизованному пользователю
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
 
-  /users/{userId}/avatar:
+  /{userId}/avatar:
     post:
       tags:
         - users
@@ -100,30 +100,6 @@ paths:
         - offers
       summary: Получить список предложений
       description: Возвращает список доступных предложений для аренды
-      parameters:
-        - name: city
-          in: query
-          required: false
-          schema:
-            city:
-            type: string
-            enum:
-              - Paris
-              - Cologne
-              - Brussels
-              - Amsterdam
-              - Hamburg
-              - Dusseldorf
-        - name: isPremium
-          in: query
-          required: false
-          schema:
-            type: boolean
-        - name: isFavorite
-          in: query
-          required: false
-          schema:
-            type: boolean
       responses:
         "200":
           content:
@@ -153,12 +129,12 @@ paths:
         "422":
           description: Невозможно создать предложение, некорректное тело запроса
 
-  /offers/{offerId}:
+  /offers/{id}:
     get:
       tags:
         - offers
-      summary: Получить информацию о предложении
-      description: Получить подробную информацию о предложении с указанным id
+      summary: Получить предложение по ID
+      description: Возвращает предложений для аренды по его ID
       responses:
         "200":
           content:
@@ -168,7 +144,18 @@ paths:
         "404":
           description: Предложение с переданным id не найдено
 
-    put:
+    delete:
+      tags:
+        - offers
+      summary: Удалить предложение
+      description: Удалить предложение с заданным id
+      responses:
+        "204":
+          description: Предложение успешно удалено
+        "404":
+          description: Предложение с переданным id не найдено
+
+    patch:
       tags:
         - offers
       summary: Изменить предложение
@@ -190,47 +177,36 @@ paths:
         "404":
           description: Предложение с переданным id не найдено
         "422":
-          description: Невозможно создать предложение, некорректное тело запроса
+          description: Невозможно изменить предложение, некорректное тело запроса
 
-    delete:
+  /premium:
+    get:
       tags:
         - offers
-      summary: Удалить предложение
-      description: Удалить предложение с заданным id
-      responses:
-        "204":
-          description: Предложение успешно удалено
-        "404":
-          description: Предложение с переданным id не найдено
-
-  /offers/{offerId}/favorite:
-    post:
-      tags:
-        - offers
-      summary: Добавить предложение в избранные
-      description: Добавить предложение с указанным id в избранные
-      responses:
-        "200":
-          description: Предложение успешно добавлено в избранные
-        "400":
-          description: Предложение уже является избранным
-        "404":
-          description: Предложение с переданным id не найдено
-
-    delete:
-      tags:
-        - offers
-      summary: Исключить предложение из избранных
-      description: Исключить предложение с указанным id из избранных
+      summary: Получить список премиум-предложений
+      description: Возвращает список премиум-предложений для аренды
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            city:
+            type: string
+            enum:
+              - Paris
+              - Cologne
+              - Brussels
+              - Amsterdam
+              - Hamburg
+              - Dusseldorf
       responses:
         "200":
-          description: Предложение успешно исключено из избранных
-        "400":
-          description: Предложение не является избранным
-        "404":
-          description: Предложение с переданным id не найдено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offersList'
 
-  /offers/{offerId}/comments:
+  /offers/{id}/comments:
     get:
       tags:
         - comments
@@ -262,6 +238,46 @@ paths:
         "422":
           description: Невозможно добавить комментарий, некорректное тело запроса
 
+  /favorites:
+    get:
+      tags:
+        - offers
+      summary: Получить список предложений, добавленных в избранное
+      description: Возвращает список предложений для аренды, добавленных в избранное
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offersList'
+
+  /favorites/{id}:
+    post:
+      tags:
+        - offers
+      summary: Добавить предложение в избранные
+      description: Добавить предложение с указанным id в избранные
+      responses:
+        "200":
+          description: Предложение успешно добавлено в избранные
+        "400":
+          description: Предложение уже является избранным
+        "404":
+          description: Предложение с переданным id не найдено
+
+    delete:
+      tags:
+        - offers
+      summary: Исключить предложение из избранных
+      description: Исключить предложение с указанным id из избранных
+      responses:
+        "200":
+          description: Предложение успешно исключено из избранных
+        "400":
+          description: Предложение не является избранным
+        "404":
+          description: Предложение с переданным id не найдено
+
 components:
   schemas:
     login:
@@ -288,6 +304,14 @@ components:
           type: string
           format: password
           example: 123456
+        avatar: 
+          type: string
+          format: string
+        type:
+          type: string
+          enum:
+            - Common
+            - Pro
 
     user:
       type: object

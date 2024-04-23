@@ -1,6 +1,6 @@
 import { pino, transport, type Logger as PinoInstance } from 'pino';
 import type { Logger } from './logger.interface';
-import { getCurrentModuleDirectoryPath } from '../helpers';
+import { getCurrentModuleDirectoryPath } from '../../helpers';
 import { resolve } from 'node:path';
 import { injectable } from 'inversify';
 
