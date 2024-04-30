@@ -25,6 +25,9 @@ export class CommentController extends BaseController {
     this.addRoute({ path: '/:offerId/comments', method: HttpMethod.Post, handler: this.createComment });
   }
 
+  /**
+   * 2.7. Добавление комментария для предложения.
+   */
   public async createComment({ body }: CreateCommentRequest, res: Response): Promise<void> {
     if(! await this.offerService.exists(body.offerId)) {
       throw new HttpError(

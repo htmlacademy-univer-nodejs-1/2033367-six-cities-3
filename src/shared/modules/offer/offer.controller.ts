@@ -12,6 +12,8 @@ import { StatusCodes } from 'http-status-codes';
 import type { UpdateOfferDTO } from './dto/update-offer.dto.js';
 import type { ParamOfferId } from './type/param-offerid.type.js';
 import type { RequestQuery } from '../../libs/rest/types/request-query.type.js';
+import type { CommentService } from '../comment/comment-service.interface.js';
+import { CommentRDO } from '../comment/rdo/comment.rdo.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -19,19 +21,21 @@ export class OfferController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.OfferService) private readonly offerService: OfferService,
+    @inject(Component.CommentService) private readonly commentService: CommentService,
   ) {
     super(logger);
     this.logger.info('Register router for OfferController');
 
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.createOffer });
-    this.addRoute({ path: '/:id', method: HttpMethod.Get, handler: this.getOffer });
-    this.addRoute({ path: '/:id', method: HttpMethod.Delete, handler: this.deleteOffer });
-    this.addRoute({ path: '/:id', method: HttpMethod.Patch, handler: this.patchOffer });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.getOffer });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteOffer });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.patchOffer });
     this.addRoute({ path: '/premium', method: HttpMethod.Get, handler: this.getPremiumOffers });
     this.addRoute({ path: '/favorites', method: HttpMethod.Get, handler: this.getFavoriteOffers });
-    this.addRoute({ path: '/favorites/:id', method: HttpMethod.Post, handler: this.addFavoriteOffer });
-    this.addRoute({ path: '/favorites/:id', method: HttpMethod.Delete, handler: this.removeFavoriteOffer });
+    this.addRoute({ path: '/favorites/:offerId', method: HttpMethod.Post, handler: this.addFavoriteOffer });
+    this.addRoute({ path: '/favorites/:offerId', method: HttpMethod.Delete, handler: this.removeFavoriteOffer });
+    this.addRoute({ path: '/:offerId/comments', method: HttpMethod.Get, handler: this.getComments });
   }
 
   /**
@@ -174,5 +178,21 @@ export class OfferController extends BaseController {
     const result = await this.offerService.removeFromFavorite(offerId);
     const responseData = fillDTO(OfferRDO, result);
     this.ok(res, responseData);
+  }
+
+  /**
+   * 2.6. Получение списка комментариев для предложения.
+   */
+  public async getComments({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
+    if(! await this.offerService.exists(params.offerId)) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer with id ${params.offerId} not found.`,
+        'OfferController',
+      );
+    }
+
+    const comments = await this.commentService.findByOfferId(params.offerId);
+    this.ok(res, fillDTO(CommentRDO, comments));
   }
 }
