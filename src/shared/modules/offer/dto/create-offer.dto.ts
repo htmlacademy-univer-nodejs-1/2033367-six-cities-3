@@ -1,6 +1,4 @@
-import type { Ref } from '@typegoose/typegoose';
 import { City, Facility, HousingType, type Coordinates } from '../../../../shared/types/index.js';
-import type { UserEntity } from '../../user/user.entity.js';
 import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, IsMongoId, IsObject, MaxLength, MinLength } from 'class-validator';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
 
