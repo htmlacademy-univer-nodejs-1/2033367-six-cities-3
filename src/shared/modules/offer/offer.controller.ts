@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { BaseController } from '../../libs/rest/controller/base-controller.abstract.js';
 import { Component } from '../../types/index.js';
 import type { Logger } from '../../libs/logger/index.js';
-import { HttpError, HttpMethod } from '../../libs/rest/index.js';
+import { HttpError, HttpMethod, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import type { OfferService } from './offer-service.interface.js';
 import { fillDTO } from '../../helpers/common.js';
 import { OfferRDO } from './rdo/offer.rdo.js';
@@ -28,14 +28,44 @@ export class OfferController extends BaseController {
 
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.createOffer });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.getOffer });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteOffer });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.patchOffer });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Get,
+      handler: this.getOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.deleteOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Patch,
+      handler: this.patchOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
     this.addRoute({ path: '/premium', method: HttpMethod.Get, handler: this.getPremiumOffers });
     this.addRoute({ path: '/favorites', method: HttpMethod.Get, handler: this.getFavoriteOffers });
-    this.addRoute({ path: '/favorites/:offerId', method: HttpMethod.Post, handler: this.addFavoriteOffer });
-    this.addRoute({ path: '/favorites/:offerId', method: HttpMethod.Delete, handler: this.removeFavoriteOffer });
-    this.addRoute({ path: '/:offerId/comments', method: HttpMethod.Get, handler: this.getComments });
+    this.addRoute({
+      path: '/favorites/:offerId',
+      method: HttpMethod.Post,
+      handler: this.addFavoriteOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/favorites/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.removeFavoriteOffer,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
   }
 
   /**

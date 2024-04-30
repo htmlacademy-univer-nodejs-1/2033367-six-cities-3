@@ -3,7 +3,7 @@ import { BaseController } from '../../libs/rest/controller/base-controller.abstr
 import { Component } from '../../types';
 import type { Logger } from '../../libs/logger';
 import type { OfferService } from '../offer';
-import { HttpError, HttpMethod } from '../../libs/rest';
+import { HttpError, HttpMethod, ValidateObjectIdMiddleware } from '../../libs/rest';
 import type { CommentService } from './comment-service.interface';
 import type { CreateCommentRequest } from './types/create-comment-request.type';
 import type { Response } from 'express';
@@ -22,7 +22,12 @@ export class CommentController extends BaseController {
     super(logger);
     this.logger.info('Register router for CommentController');
 
-    this.addRoute({ path: '/:offerId/comments', method: HttpMethod.Post, handler: this.createComment });
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Post,
+      handler: this.createComment,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
   }
 
   /**
