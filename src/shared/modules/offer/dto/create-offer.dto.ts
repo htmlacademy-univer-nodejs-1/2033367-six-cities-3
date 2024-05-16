@@ -1,5 +1,5 @@
 import { City, Facility, HousingType, type Coordinates } from '../../../../shared/types/index.js';
-import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, IsMongoId, IsObject, MaxLength, MinLength } from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, IsMongoId, IsObject, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
 
 export class CreateOfferDTO {
@@ -21,7 +21,7 @@ export class CreateOfferDTO {
   @MaxLength(256, { message: CreateOfferValidationMessage.preview.maxLength })
   public preview: string;
 
-  @IsArray({ each: true, message: CreateOfferValidationMessage.picutres.invalidFormat })
+  @IsArray({ message: CreateOfferValidationMessage.picutres.invalidFormat })
   public pictures: string[];
 
   @IsBoolean({ message: CreateOfferValidationMessage.isPremium.invalidFormat })
@@ -31,26 +31,26 @@ export class CreateOfferDTO {
   public isFavorite: boolean;
 
   @IsInt({ message: CreateOfferValidationMessage.rating.invalidFormat })
-  @MinLength(1, { message: CreateOfferValidationMessage.rating.minValue })
-  @MaxLength(5, { message: CreateOfferValidationMessage.rating.maxValue })
+  @Min(1, { message: CreateOfferValidationMessage.rating.minValue })
+  @Max(5, { message: CreateOfferValidationMessage.rating.maxValue })
   public rating: number;
 
   @IsEnum(HousingType, { message: CreateOfferValidationMessage.housingType.invalid })
   public housingType: HousingType;
 
   @IsInt({ message: CreateOfferValidationMessage.roomsCount.invalidFormat })
-  @MinLength(1, { message: CreateOfferValidationMessage.roomsCount.minValue })
-  @MaxLength(8, { message: CreateOfferValidationMessage.roomsCount.maxValue })
+  @Min(1, { message: CreateOfferValidationMessage.roomsCount.minValue })
+  @Max(8, { message: CreateOfferValidationMessage.roomsCount.maxValue })
   public roomsCount: number;
 
   @IsInt({ message: CreateOfferValidationMessage.guestsCount.invalidFormat })
-  @MinLength(1, { message: CreateOfferValidationMessage.guestsCount.minValue })
-  @MaxLength(10, { message: CreateOfferValidationMessage.guestsCount.maxValue })
+  @Min(1, { message: CreateOfferValidationMessage.guestsCount.minValue })
+  @Max(10, { message: CreateOfferValidationMessage.guestsCount.maxValue })
   public guestsCount: number;
 
   @IsInt({ message: CreateOfferValidationMessage.price.invalidFormat })
-  @MinLength(100, { message: CreateOfferValidationMessage.price.minValue })
-  @MaxLength(100000, { message: CreateOfferValidationMessage.price.maxValue })
+  @Min(100, { message: CreateOfferValidationMessage.price.minValue })
+  @Max(100000, { message: CreateOfferValidationMessage.price.maxValue })
   public price: number;
 
   @IsArray({ message: CreateOfferValidationMessage.facilities.invalidFormat })

@@ -17,7 +17,7 @@ export const CreateOfferValidationMessage = {
     maxLength: 'Too long for field «preview»',
   },
   picutres: {
-    invalidFormat: 'Field picutres must be an array',
+    invalidFormat: 'Field pictures must be an array',
     invalid: 'Pictures must be an array of valid pictures'
   },
   isPremium: {
