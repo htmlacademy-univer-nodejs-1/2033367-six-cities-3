@@ -15,6 +15,7 @@ import type { RequestQuery } from '../../libs/rest/types/request-query.type.js';
 import type { CommentService } from '../comment/comment-service.interface.js';
 import { CommentRDO } from '../comment/rdo/comment.rdo.js';
 import { CreateOfferDTO } from './dto/create-offer.dto.js';
+import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -64,7 +65,10 @@ export class OfferController extends BaseController {
       path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.getComments,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+      ]
     });
     this.addRoute({
       path: '/:offerId',
