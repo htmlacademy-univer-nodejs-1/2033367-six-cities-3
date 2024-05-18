@@ -134,3 +134,15 @@ DELETE http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1
 ###
 
 GET http://localhost:3000/upload/readme.txt HTTP/1.1
+
+###
+
+POST http://localhost:3000/users/66463d85e81ca3242d5e5ac1/avatar HTTP/1.1
+Content-Type: multipart/form-data; boundary=w
+
+--w
+Content-Disposition: form-data; name="avatar"; filename="screen.png"
+Content-Type: image/png
+
+< /Users/Andrew/Pictures/123.png
+--w--
