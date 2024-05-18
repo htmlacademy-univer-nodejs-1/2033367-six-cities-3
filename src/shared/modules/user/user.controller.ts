@@ -13,6 +13,7 @@ import { fillDTO } from '../../helpers';
 import { UserRDO } from './rdo/user.rdo';
 import type { LoginUserRequest } from './login-user-request.type';
 import { CreateUserDTO } from './dto/create-user.dto';
+import { LoginUserDTO } from './dto/login-user.dto';
 
 export class UserController extends BaseController {
 
@@ -38,7 +39,8 @@ export class UserController extends BaseController {
     this.addRoute({
       path: '/login',
       method: HttpMethod.Post,
-      handler: this.login
+      handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDTO)]
     });
     this.addRoute({
       path: '/logout',
