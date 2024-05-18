@@ -9,4 +9,4 @@ export const CreateCommentValidationMessage = {
   userId: {
     invalidId: 'userId field must be valid user id'
   },
-};
+} as const;

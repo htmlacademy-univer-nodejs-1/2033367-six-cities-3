@@ -2,7 +2,7 @@ import { inject } from 'inversify';
 import { BaseController } from '../../libs/rest/controller/base-controller.abstract';
 import { Component } from '../../types';
 import type { Logger } from '../../libs/logger';
-import { HttpError, HttpMethod } from '../../libs/rest';
+import { HttpError, HttpMethod, ValidateDtoMiddleware } from '../../libs/rest';
 import { type Response } from 'express';
 import type { CreateUserRequest } from './create-user-request.type';
 import type { UserService } from './user-service.interface';
@@ -12,6 +12,7 @@ import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../helpers';
 import { UserRDO } from './rdo/user.rdo';
 import type { LoginUserRequest } from './login-user-request.type';
+import { CreateUserDTO } from './dto/create-user.dto';
 
 export class UserController extends BaseController {
 
@@ -23,11 +24,32 @@ export class UserController extends BaseController {
     super(logger);
     this.logger.info('Register router for UserController');
 
-    this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.create });
-    this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.getStatus });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.login });
-    this.addRoute({ path: '/logout', method: HttpMethod.Delete, handler: this.logout });
-    this.addRoute({ path: '/:id/avatar', method: HttpMethod.Post, handler: this.uploadAvatar });
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateUserDTO)]
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.getStatus
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login
+    });
+    this.addRoute({
+      path: '/logout',
+      method: HttpMethod.Delete,
+      handler: this.logout
+    });
+    this.addRoute({
+      path: '/:id/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar
+    });
   }
 
   public async create(
