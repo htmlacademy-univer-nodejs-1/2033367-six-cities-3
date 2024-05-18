@@ -9,7 +9,7 @@ import { fillDTO } from '../../helpers/common.js';
 import { OfferRDO } from './rdo/offer.rdo.js';
 import type { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { StatusCodes } from 'http-status-codes';
-import type { UpdateOfferDTO } from './dto/update-offer.dto.js';
+import { UpdateOfferDTO } from './dto/update-offer.dto.js';
 import type { ParamOfferId } from './type/param-offerid.type.js';
 import type { RequestQuery } from '../../libs/rest/types/request-query.type.js';
 import type { CommentService } from '../comment/comment-service.interface.js';
@@ -84,7 +84,7 @@ export class OfferController extends BaseController {
       handler: this.patchOffer,
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
-        new ValidateDtoMiddleware(CreateOfferDTO)
+        new ValidateDtoMiddleware(UpdateOfferDTO)
       ]
     });
   }
