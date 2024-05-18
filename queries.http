@@ -1,50 +1,17 @@
-POST http://localhost:3000/users/register HTTP/1.1
-Content-Type: application/json
-
-{
-  "name": "Andrew Fer",
-  "email": "andrei.fer@at.urfu.ru",
-  "password": "Zaq1Xsw2",
-  "avatar": "avatar.png",
-  "userType": "Common"
-}
-
 ###
-
-GET http://localhost:3000/users/login HTTP/1.1
-
-###
-
-POST http://localhost:3000/users/login HTTP/1.1
-Content-Type: application/json
-
-{
-  "email": "andrei.fer@at.urfu.ru",
-  "password": "Zaq1Xsw2"
-}
-
-###
-
-DELETE http://localhost:3000/users/logout HTTP/1.1
-
-###
-
-GET http://localhost:3000/offers HTTP/1.1
-
-###
-
+# 2.1. Создание нового предложения.
 POST http://localhost:3000/offers HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "First offer",
-  "description": "Description of first offer",
+  "title": "Favorite offer",
+  "description": "Description of first favorite offer",
   "postDate": "2024-05-16T21:57:00",
   "city": "Paris",
   "preview": "image1.png",
   "pictures": ["image1.png", "image2.png", "image3.png"],
   "isPremium": false,
-  "isFavorite": false,
+  "isFavorite": true,
   "rating": 4,
   "housingType": "Apartment",
   "roomsCount": 3,
@@ -59,16 +26,8 @@ Content-Type: application/json
 }
 
 ###
-
-GET http://localhost:3000/offers/66464988397eadfaa039e62e HTTP/1.1
-
-###
-
-DELETE http://localhost:3000/offers/66464988397eadfaa039e62e HTTP/1.1
-
-###
-
-PATCH http://localhost:3000/offers/66464988397eadfaa039e62e HTTP/1.1
+# 2.2. Редактирование предложения.
+PATCH http://localhost:3000/offers/6648d07fb176c942f829c26f HTTP/1.1
 Content-Type: application/json
 
 {
@@ -94,34 +53,80 @@ Content-Type: application/json
 }
 
 ###
-
-GET http://localhost:3000/offers/66464988397eadfaa039e62e/comments HTTP/1.1
+# 2.3. Удаление предложения.
+DELETE http://localhost:3000/offers/6648d07fb176c942f829c26f HTTP/1.1
 
 ###
+# 2.4. Получение списка предложений по аренде.
+GET http://localhost:3000/offers HTTP/1.1
 
-POST http://localhost:3000/offers/66464988397eadfaa039e62e/comments HTTP/1.1
+###
+# 2.5. Получение детальной информации о предложении.
+GET http://localhost:3000/offers/6648d07fb176c942f829c26f HTTP/1.1
+
+###
+# 2.6. Получение списка комментариев для предложения.
+GET http://localhost:3000/offers/6648d3bd48bb9528da7cf3b3/comments HTTP/1.1
+
+###
+# 2.7. Добавление комментария для предложения.
+POST http://localhost:3000/offers/6648d3bd48bb9528da7cf3b3/comments HTTP/1.1
 Content-Type: application/json
 
 {
-  "text": "Text for comment"
+  "text": "Text for comment",
+  "postDate": "2024-05-16T22:57:00",
+  "offerId": "6648d3bd48bb9528da7cf3b3",
+  "userId": "66463d85e81ca3242d5e5ac1"
 }
 
 ###
+# 2.8. Создание нового пользователя.
+POST http://localhost:3000/users/register HTTP/1.1
+Content-Type: application/json
 
+{
+  "name": "Andrew Fer",
+  "email": "andrei.fer@at.urfu.ru",
+  "password": "Zaq1Xsw2",
+  "avatar": "avatar.png",
+  "userType": "Common"
+}
+
+###
+# 2.9. Вход в закрытую часть приложения.
+POST http://localhost:3000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "andrei.fer@at.urfu.ru",
+  "password": "Zaq1Xsw2"
+}
+
+###
+# 2.10. Выход из закрытой части приложения.
+DELETE http://localhost:3000/users/logout HTTP/1.1
+
+###
+# 2.11. Проверка состояния пользователя.
+GET http://localhost:3000/users/login HTTP/1.1
+
+###
+# 2.12. Получение списка премиальных предложений для города.
 GET http://localhost:3000/offers/premium?city=Paris HTTP/1.1
 
 ###
-
+# 2.12. Получение списка премиальных предложений для города.
 GET http://localhost:3000/offers/premium?city=Brussels HTTP/1.1
 
 ###
-
+# 2.13. Получения списка предложений, добавленных в избранное.
 GET http://localhost:3000/offers/favorites HTTP/1.1
 
 ###
-
-POST http://localhost:3000/offers/favorites/66464988397eadfaa039e62e HTTP/1.1
+# 2.14. Добавление предложения в избранное.
+POST http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1
 
 ###
-
-DELETE http://localhost:3000/offers/favorites/66464988397eadfaa039e62e HTTP/1.1
+# 2.14. Удаление предложения из избранного.
+DELETE http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1

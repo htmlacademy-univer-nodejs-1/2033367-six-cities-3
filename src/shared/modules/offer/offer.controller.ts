@@ -91,6 +91,7 @@ export class OfferController extends BaseController {
    */
   public async index(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find();
+    console.log(offers);
     const responseData = fillDTO(OfferRDO, offers);
     this.ok(res, responseData);
   }
@@ -180,7 +181,7 @@ export class OfferController extends BaseController {
   }
 
   /**
-   * 2.3. Удаление предложения.
+   * 2.13. Получения списка предложений, добавленных в избранное.
    */
   public async getFavoriteOffers(_req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.findByFavorite(true);

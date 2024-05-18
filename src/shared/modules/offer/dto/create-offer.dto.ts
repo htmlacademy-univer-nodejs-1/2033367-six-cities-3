@@ -62,4 +62,5 @@ export class CreateOfferDTO {
 
   @IsObject({ message: CreateOfferValidationMessage.coordinates.invalid })
   public coordinates: Coordinates;
+
 }

@@ -5,11 +5,12 @@ import type { Logger } from '../../libs/logger';
 import type { OfferService } from '../offer';
 import { HttpError, HttpMethod, ValidateObjectIdMiddleware } from '../../libs/rest';
 import type { CommentService } from './comment-service.interface';
-import type { CreateCommentRequest } from './types/create-comment-request.type';
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../helpers';
 import { CommentRDO } from './rdo/comment.rdo';
+import type { ParamOfferId } from '../offer/type/param-offerid.type';
+import type { CreateCommentDTO } from './dto/create-comment.dto';
 
 @injectable()
 export class CommentController extends BaseController {
@@ -33,8 +34,8 @@ export class CommentController extends BaseController {
   /**
    * 2.7. Добавление комментария для предложения.
    */
-  public async createComment({ body }: CreateCommentRequest, res: Response): Promise<void> {
-    if(! await this.offerService.exists(body.offerId)) {
+  public async createComment({ params, body }: Request<ParamOfferId, unknown, CreateCommentDTO>, res: Response): Promise<void> {
+    if(!await this.offerService.exists(params.offerId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
         `Offer with id ${body.offerId} not found.`,
