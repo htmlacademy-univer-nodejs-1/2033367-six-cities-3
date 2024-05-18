@@ -130,3 +130,7 @@ POST http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1
 ###
 # 2.14. Удаление предложения из избранного.
 DELETE http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1
+
+###
+
+GET http://localhost:3000/upload/readme.txt HTTP/1.1
