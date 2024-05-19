@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import type { OfferService } from './offer-service.interface.js';
-import { Component } from '../../types/index.js';
+import { Component, SortType } from '../../types/index.js';
 import { OfferEntity } from './offer.entity.js';
 import type { DocumentType, types } from '@typegoose/typegoose';
 import type { CreateOfferDTO } from './dto/create-offer.dto.js';
@@ -18,7 +18,7 @@ export class DefaultOfferService implements OfferService {
 
   public async create(dto: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
     const result = await this.offerModel.create(dto);
-    this.logger.info(`New offer created: ${dto.title} (${result._id})`);
+    this.logger.info(`New offer created: ${dto.title} (id: ${result._id})`);
 
     return result;
   }
@@ -33,7 +33,13 @@ export class DefaultOfferService implements OfferService {
   public async find(count?: number, offset?: number): Promise<DocumentType<OfferEntity>[]> {
     const limit = count ?? DEFAULT_OFFER_COUNT;
     const skip = offset ?? 0;
-    return this.offerModel.find({limit, skip});
+    return this.offerModel
+      .find()
+      .sort({createdAt: SortType.Down})
+      .skip(skip)
+      .limit(limit)
+      .populate('authorId')
+      .exec();
   }
 
   public async deleteById(id: string): Promise<DocumentType<OfferEntity> | null> {
@@ -58,7 +64,10 @@ export class DefaultOfferService implements OfferService {
     const limit = count ?? PREMIUM_OFFER_COUNT;
     const skip = offset ?? 0;
     return this.offerModel
-      .find({city: city, isPremium: isPremium}, {}, {limit, skip})
+      .find({ city: city, isPremium: isPremium })
+      .sort({ createdAt: SortType.Down })
+      .skip(skip)
+      .limit(limit)
       .populate('authorId')
       .exec();
   }
@@ -67,20 +76,22 @@ export class DefaultOfferService implements OfferService {
     const limit = count ?? DEFAULT_OFFER_COUNT;
     const skip = offset ?? 0;
     return this.offerModel
-      .find({isFavorite: isFavorite}, {}, {limit, skip})
+      .find({ isFavorite: isFavorite })
+      .skip(skip)
+      .limit(limit)
       .populate('authorId')
       .exec();
   }
 
   public async addToFavorite(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
-      .findByIdAndUpdate(id, {isFavorite: false}, {new: true})
+      .findByIdAndUpdate(id, {isFavorite: true}, {new: true})
       .exec();
   }
 
   public async removeFromFavorite(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
-      .findByIdAndUpdate(id, {isFavorite: true}, {new: true})
+      .findByIdAndUpdate(id, {isFavorite: false}, {new: true})
       .exec();
   }
 

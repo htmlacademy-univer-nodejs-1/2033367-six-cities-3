@@ -22,8 +22,11 @@ export class DefaultCommentService implements CommentService {
     const limit = count ?? DEFAULT_COMMENT_COUNT;
     const skip = offset ?? 0;
     return this.commentModel
-      .find({offerId}, {limit, skip})
-      .populate('userId');
+      .find({ offerId })
+      .skip(skip)
+      .limit(limit)
+      .populate('userId')
+      .exec();
   }
 
   public async deleteByOfferId(offerId: string): Promise<number> {
