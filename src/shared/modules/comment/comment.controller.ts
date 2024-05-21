@@ -38,9 +38,12 @@ export class CommentController extends BaseController {
   /**
    * 2.7. Добавление комментария для предложения.
    */
-  public async createComment({ params, body }: Request<ParamOfferId, unknown, CreateCommentDTO>, res: Response): Promise<void> {
-    const comment = await this.commentService.create(body);
-    await this.offerService.incCommentCount(params.offerId);
+  public async createComment(
+    { body, tokenPayload }: Request<ParamOfferId, unknown, CreateCommentDTO>,
+    res: Response
+  ): Promise<void> {
+    const comment = await this.commentService.create({ ...body, userId: tokenPayload.id });
+    await this.offerService.incCommentCount(body.offerId);
     this.created(res, fillDTO(CommentRDO, comment));
   }
 
