@@ -183,8 +183,8 @@ export class OfferController extends BaseController {
   /**
    * 2.13. Получения списка предложений, добавленных в избранное.
    */
-  public async getFavoriteOffers(_req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.findByFavorite(true);
+  public async getFavoriteOffers({ tokenPayload }: Request, res: Response): Promise<void> {
+    const offers = await this.offerService.findByFavorite(tokenPayload !== undefined);
     const responseData = fillDTO(OfferRDO, offers);
     this.ok(res, responseData);
   }
