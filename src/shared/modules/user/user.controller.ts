@@ -82,12 +82,26 @@ export class UserController extends BaseController {
     this.created(res, fillDTO(UserRDO, result));
   }
 
-  public async getStatus(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
+  public async getStatus({ tokenPayload: { email }}: Request, res: Response): Promise<void> {
+    if (!email) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    const user = await this.userService.findByEmail(email);
+
+    if (!user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRDO, user));
   }
 
   public async login(
