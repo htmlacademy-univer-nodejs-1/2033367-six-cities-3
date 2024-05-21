@@ -11,6 +11,8 @@ import { JWT_ALGORITHM, JWT_EXPIRED } from './auth-constant.js';
 import type { LoginUserDTO } from '../user/index.js';
 import * as crypto from 'node:crypto';
 import type { TokenPayload } from './types/token-payload.type.js';
+import { UserPasswordIncorrectException } from './exceptions/user-password-incorrect.exception.js';
+import { UserNotFoundException } from './exceptions/user-not-found.exception.js';
 
 @injectable()
 export class DefaultAuthService implements AuthService {
