@@ -16,6 +16,7 @@ import type { CommentService } from '../comment/comment-service.interface.js';
 import { CommentRDO } from '../comment/rdo/comment.rdo.js';
 import { CreateOfferDTO } from './dto/create-offer.dto.js';
 import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
+import { PrivateRouteMiddleware } from '../../libs/rest/middleware/private-route.middleware.js';
 
 @injectable()
 export class OfferController extends BaseController {
@@ -37,7 +38,10 @@ export class OfferController extends BaseController {
       path: '/',
       method: HttpMethod.Post,
       handler: this.createOffer,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDTO)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDTO)
+      ]
     });
     this.addRoute({
       path: '/premium',
@@ -54,6 +58,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Post,
       handler: this.addFavoriteOffer,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -63,6 +68,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Delete,
       handler: this.removeFavoriteOffer,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -90,6 +96,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Delete,
       handler: this.deleteOffer,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -99,6 +106,7 @@ export class OfferController extends BaseController {
       method: HttpMethod.Patch,
       handler: this.patchOffer,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDTO),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')

@@ -17,6 +17,7 @@ import { LoginUserDTO } from './dto/login-user.dto';
 import { UploadFileMiddleware } from '../../libs/rest/middleware/upload-file.middleware';
 import type { AuthService } from '../auth';
 import { LoggedUserRDO } from './rdo/logged-user.rdo';
+import { PrivateRouteMiddleware } from '../../libs/rest/middleware/private-route.middleware';
 
 export class UserController extends BaseController {
 
@@ -49,7 +50,8 @@ export class UserController extends BaseController {
     this.addRoute({
       path: '/logout',
       method: HttpMethod.Delete,
-      handler: this.logout
+      handler: this.logout,
+      middlewares: [new PrivateRouteMiddleware()]
     });
     this.addRoute({
       path: '/:userId/avatar',
