@@ -11,6 +11,7 @@ import type { OfferController } from '../shared/modules/offer/offer.controller.j
 import type { ExceptionFilter } from '../shared/libs/rest/index.js';
 import type { CommentController } from '../shared/modules/comment/comment.controller.js';
 import type { AuthExceptionFilter } from '../shared/modules/auth/auth.exception-filter.js';
+import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 
 @injectable()
 export class RestApplication {
@@ -53,11 +54,14 @@ export class RestApplication {
   }
 
   private async _initMiddleware() {
+    const authenticateMiddleware = new ParseTokenMiddleware(this.config.get('JWT_SECRET'));
+
     this.server.use(express.json());
     this.server.use(
       '/upload',
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
+    this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   private async _initExceptionFilters() {
