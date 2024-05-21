@@ -1,9 +1,10 @@
 import { IsMongoId, MaxLength, MinLength } from 'class-validator';
+import { CreateCommentValidationMessage } from './create-comment.messages';
 
 export class CreateCommentDTO {
 
-  @MinLength(5, { message: '' })
-  @MaxLength(1024, { message: '' })
+  @MinLength(5, { message: CreateCommentValidationMessage.text.minLength })
+  @MaxLength(1024, { message: CreateCommentValidationMessage.text.maxLength })
   public text: string;
 
   @IsMongoId({ message: '' })
