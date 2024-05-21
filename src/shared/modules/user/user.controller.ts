@@ -17,7 +17,6 @@ import { LoginUserDTO } from './dto/login-user.dto';
 import { UploadFileMiddleware } from '../../libs/rest/middleware/upload-file.middleware';
 import type { AuthService } from '../auth';
 import { LoggedUserRDO } from './rdo/logged-user.rdo';
-import { email } from 'convict-format-with-validator';
 
 export class UserController extends BaseController {
 
