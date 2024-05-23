@@ -2,10 +2,11 @@
 # 2.1. Создание нового предложения.
 POST http://localhost:3000/offers HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 {
-  "title": "Favorite offer",
-  "description": "Description of first favorite offer",
+  "title": "Offer by authorized user",
+  "description": "Description of offer",
   "postDate": "2024-05-16T21:57:00",
   "city": "Paris",
   "preview": "image1.png",
@@ -29,6 +30,7 @@ Content-Type: application/json
 # 2.2. Редактирование предложения.
 PATCH http://localhost:3000/offers/6648d07fb176c942f829c26f HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 {
   "title": "Second offer",
@@ -55,6 +57,7 @@ Content-Type: application/json
 ###
 # 2.3. Удаление предложения.
 DELETE http://localhost:3000/offers/6648d07fb176c942f829c26f HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 ###
 # 2.4. Получение списка предложений по аренде.
@@ -72,9 +75,10 @@ GET http://localhost:3000/offers/6648d3bd48bb9528da7cf3b3/comments HTTP/1.1
 # 2.7. Добавление комментария для предложения.
 POST http://localhost:3000/offers/6648d3bd48bb9528da7cf3b3/comments HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 {
-  "text": "Text for comment",
+  "text": "Comment by authorized user",
   "postDate": "2024-05-16T22:57:00",
   "offerId": "6648d3bd48bb9528da7cf3b3",
   "userId": "66463d85e81ca3242d5e5ac1"
@@ -106,10 +110,12 @@ Content-Type: application/json
 ###
 # 2.10. Выход из закрытой части приложения.
 DELETE http://localhost:3000/users/logout HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 ###
 # 2.11. Проверка состояния пользователя.
 GET http://localhost:3000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 ###
 # 2.12. Получение списка премиальных предложений для города.
@@ -126,10 +132,12 @@ GET http://localhost:3000/offers/favorites HTTP/1.1
 ###
 # 2.14. Добавление предложения в избранное.
 POST http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 ###
 # 2.14. Удаление предложения из избранного.
 DELETE http://localhost:3000/offers/favorites/6648d3bd48bb9528da7cf3b3 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFuZHJlaS5mZXJAYXQudXJmdS5ydSIsIm5hbWUiOiJBbmRyZXcgRmVyIiwiaWQiOiI2NjQ2M2Q4NWU4MWNhMzI0MmQ1ZTVhYzEiLCJpYXQiOjE3MTY0NzgzNTYsImV4cCI6MTcxNjY1MTE1Nn0.R_XD-vPV_Q8cO2V7Ko4151Akbp7ReSrSXCy5YVgEZ6w
 
 ###
 

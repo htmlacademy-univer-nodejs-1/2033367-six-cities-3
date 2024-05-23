@@ -82,8 +82,8 @@ export class UserController extends BaseController {
     this.created(res, fillDTO(UserRDO, result));
   }
 
-  public async getStatus({ tokenPayload: { email }}: Request, res: Response): Promise<void> {
-    if (!email) {
+  public async getStatus({ tokenPayload }: Request, res: Response): Promise<void> {
+    if (!tokenPayload) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
         'Unauthorized',
@@ -91,6 +91,7 @@ export class UserController extends BaseController {
       );
     }
 
+    const email = tokenPayload.email;
     const user = await this.userService.findByEmail(email);
 
     if (!user) {
