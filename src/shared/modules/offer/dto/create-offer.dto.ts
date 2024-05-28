@@ -57,7 +57,6 @@ export class CreateOfferDTO {
   @IsEnum(Facility, { each: true, message: CreateOfferValidationMessage.facilities.invalid })
   public facilities: Facility[];
 
-  @IsMongoId({ message: CreateOfferValidationMessage.author.invalidId })
   public authorId: string;
 
   @IsObject({ message: CreateOfferValidationMessage.coordinates.invalid })

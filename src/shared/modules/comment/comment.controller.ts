@@ -11,6 +11,7 @@ import { CommentRDO } from './rdo/comment.rdo';
 import type { ParamOfferId } from '../offer/type/param-offerid.type';
 import { CreateCommentDTO } from './dto/create-comment.dto';
 import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware';
+import { PrivateRouteMiddleware } from '../../libs/rest/middleware/private-route.middleware';
 
 @injectable()
 export class CommentController extends BaseController {
@@ -28,6 +29,7 @@ export class CommentController extends BaseController {
       method: HttpMethod.Post,
       handler: this.createComment,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(CreateCommentDTO),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
@@ -38,9 +40,12 @@ export class CommentController extends BaseController {
   /**
    * 2.7. Добавление комментария для предложения.
    */
-  public async createComment({ params, body }: Request<ParamOfferId, unknown, CreateCommentDTO>, res: Response): Promise<void> {
-    const comment = await this.commentService.create(body);
-    await this.offerService.incCommentCount(params.offerId);
+  public async createComment(
+    { body, tokenPayload }: Request<ParamOfferId, unknown, CreateCommentDTO>,
+    res: Response
+  ): Promise<void> {
+    const comment = await this.commentService.create({ ...body, userId: tokenPayload.id });
+    await this.offerService.incCommentCount(body.offerId);
     this.created(res, fillDTO(CommentRDO, comment));
   }
 

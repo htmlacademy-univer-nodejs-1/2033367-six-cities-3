@@ -15,6 +15,9 @@ import type { LoginUserRequest } from './login-user-request.type';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { LoginUserDTO } from './dto/login-user.dto';
 import { UploadFileMiddleware } from '../../libs/rest/middleware/upload-file.middleware';
+import type { AuthService } from '../auth';
+import { LoggedUserRDO } from './rdo/logged-user.rdo';
+import { PrivateRouteMiddleware } from '../../libs/rest/middleware/private-route.middleware';
 
 export class UserController extends BaseController {
 
@@ -22,6 +25,7 @@ export class UserController extends BaseController {
     @inject(Component.Logger) protected readonly logger: Logger,
     @inject(Component.UserService) private readonly userService: UserService,
     @inject(Component.Config) private readonly configService: Config<RestSchema>,
+    @inject(Component.AuthService) private readonly authService: AuthService,
   ) {
     super(logger);
     this.logger.info('Register router for UserController');
@@ -46,7 +50,8 @@ export class UserController extends BaseController {
     this.addRoute({
       path: '/logout',
       method: HttpMethod.Delete,
-      handler: this.logout
+      handler: this.logout,
+      middlewares: [new PrivateRouteMiddleware()]
     });
     this.addRoute({
       path: '/:userId/avatar',
@@ -77,33 +82,42 @@ export class UserController extends BaseController {
     this.created(res, fillDTO(UserRDO, result));
   }
 
-  public async getStatus(): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
+  public async getStatus({ tokenPayload }: Request, res: Response): Promise<void> {
+    if (!tokenPayload) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    const email = tokenPayload.email;
+    const user = await this.userService.findByEmail(email);
+
+    if (!user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
+
+    this.ok(res, fillDTO(LoggedUserRDO, user));
   }
 
   public async login(
     { body }: LoginUserRequest,
-    _res: Response,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
 
-    if (!existsUser) {
-      throw new HttpError(
-        StatusCodes.UNAUTHORIZED,
-        `User with email ${body.email} not found.`,
-        'UserController',
-      );
-    }
+    const user = await this.authService.verify(body);
+    const token = await this.authService.authenticate(user);
+    const responseData = fillDTO(LoggedUserRDO, {
+      email: user.email,
+      token
+    });
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController'
-    );
+    this.ok(res, responseData);
   }
 
   public async logout(): Promise<void> {
