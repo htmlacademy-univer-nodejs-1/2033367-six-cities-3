@@ -6,3 +6,4 @@ export * from './types/request-params.type.js';
 export * from './exception-filter/exception-filter.interface.js';
 export * from './errors/index.js';
 export * from './middleware/index.js';
+export * from './types/validation-error-field.type.js';
