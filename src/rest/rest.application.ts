@@ -1,4 +1,5 @@
 import express, { type Express } from 'express';
+import cors from 'cors';
 import { inject, injectable } from 'inversify';
 import type { Config } from '../shared/libs/config/config.interface.js';
 import type { RestSchema } from '../shared/libs/config/rest.schema.js';
@@ -71,6 +72,7 @@ export class RestApplication {
       express.static(this.config.get('STATIC_DIRECTORY_PATH'))
     );
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.server.use(cors());
   }
 
   private async _initExceptionFilters() {

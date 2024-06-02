@@ -1,5 +1,5 @@
 import { City, Facility, HousingType, type Coordinates } from '../../../../shared/types/index.js';
-import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, IsMongoId, IsObject, Max, MaxLength, Min, MinLength } from 'class-validator';
+import { IsArray, IsBoolean, IsDateString, IsEnum, IsInt, IsObject, Max, MaxLength, Min, MinLength } from 'class-validator';
 import { CreateOfferValidationMessage } from './create-offer.messages.js';
 
 export class CreateOfferDTO {
