@@ -9,9 +9,6 @@ export class CreateUserDTO {
   @MaxLength(15, { message: CreateUserValidationMessage.name.maxLength })
   public name: string;
 
-  @IsString({ message: CreateUserValidationMessage.avatar.invalidFormat })
-  public avatar: string;
-
   @IsEmail({}, { message: CreateUserValidationMessage.email.invalidFormat })
   public email: string;
 

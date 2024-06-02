@@ -1,4 +1,7 @@
 import { plainToInstance, type ClassConstructor } from 'class-transformer';
+import type { ValidationError } from 'class-validator';
+import type { ValidationErrorField } from '../libs/rest/types/validation-error-field.type';
+import type { ApplicationError } from '../libs/rest/types/application-error.enum';
 
 export function generateRandomValue(
   min: number,
@@ -27,8 +30,22 @@ export function fillDTO<T, V>(someDTO: ClassConstructor<T>, plainObject: V) {
   return plainToInstance(someDTO, plainObject, { excludeExtraneousValues: true });
 }
 
-export function createErrorObject(message: string) {
+export function createErrorObject(errorType: ApplicationError, error: string, details?: ValidationErrorField[]) {
   return {
-    error: message,
+    errorType,
+    error,
+    details
   };
+}
+
+export function reduceValidationError(errors: ValidationError[]): ValidationErrorField[] {
+  return errors.map(({ property, value, constraints }) => ({
+    property,
+    value,
+    messages: constraints ? Object.values(constraints) : []
+  }));
+}
+
+export function getFullServerPath(host: string, port: number) {
+  return `http://${host}:${port}`;
 }
