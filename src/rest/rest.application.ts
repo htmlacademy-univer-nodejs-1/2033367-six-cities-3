@@ -14,6 +14,7 @@ import type { AuthExceptionFilter } from '../shared/modules/auth/auth.exception-
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 import type { HttpErrorExceptionFilter } from '../shared/libs/rest/exception-filter/http-error.exception-filter.js';
 import { getFullServerPath } from '../shared/helpers/common.js';
+import { STATIC_FILES_ROUTE, STATIC_UPLOAD_ROUTE } from './rest.constant.js';
 
 @injectable()
 export class RestApplication {
@@ -62,11 +63,11 @@ export class RestApplication {
 
     this.server.use(express.json());
     this.server.use(
-      '/upload',
+      STATIC_UPLOAD_ROUTE,
       express.static(this.config.get('UPLOAD_DIRECTORY'))
     );
     this.server.use(
-      '/static',
+      STATIC_FILES_ROUTE,
       express.static(this.config.get('STATIC_DIRECTORY_PATH'))
     );
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
