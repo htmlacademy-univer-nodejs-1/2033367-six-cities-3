@@ -5,7 +5,7 @@ import { MongoDatabaseClient, type DatabaseClient } from '../shared/libs/databas
 import { Component } from '../shared/types/index.js';
 import { PinoLogger, type Logger } from '../shared/libs/logger/index.js';
 import type { ExceptionFilter } from '../shared/libs/rest/index.js';
-import { DefaultExceptionFilter } from '../shared/libs/rest/exception-filter/default-exception-filter.js';
+import { DefaultExceptionFilter } from '../shared/libs/rest/exception-filter/default.exception-filter.js';
 
 export function createRestApplicationContainer() {
   const restApplicationContainer = new Container();

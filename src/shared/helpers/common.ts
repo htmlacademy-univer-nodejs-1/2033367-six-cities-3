@@ -1,6 +1,7 @@
 import { plainToInstance, type ClassConstructor } from 'class-transformer';
 import type { ValidationError } from 'class-validator';
 import type { ValidationErrorField } from '../libs/rest/types/validation-error-field.type';
+import type { ApplicationError } from '../libs/rest/types/application-error.enum';
 
 export function generateRandomValue(
   min: number,
@@ -29,9 +30,11 @@ export function fillDTO<T, V>(someDTO: ClassConstructor<T>, plainObject: V) {
   return plainToInstance(someDTO, plainObject, { excludeExtraneousValues: true });
 }
 
-export function createErrorObject(message: string) {
+export function createErrorObject(errorType: ApplicationError, error: string, details: ValidationErrorField[]) {
   return {
-    error: message,
+    errorType,
+    error,
+    details
   };
 }
 
