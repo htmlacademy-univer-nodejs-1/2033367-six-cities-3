@@ -13,6 +13,7 @@ import type { CommentController } from '../shared/modules/comment/comment.contro
 import type { AuthExceptionFilter } from '../shared/modules/auth/auth.exception-filter.js';
 import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
 import type { HttpErrorExceptionFilter } from '../shared/libs/rest/exception-filter/http-error.exception-filter.js';
+import { getFullServerPath } from '../shared/helpers/common.js';
 
 @injectable()
 export class RestApplication {
@@ -96,6 +97,6 @@ export class RestApplication {
 
     this.logger.info('Trying to initialize server');
     await this._initServer();
-    this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
   }
 }
